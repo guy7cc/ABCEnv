@@ -1,0 +1,52 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug (External Console)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}\\submit.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "${workspaceFolder}\\mingw64\\bin\\gdb.exe",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Build submit.cpp"
+        },
+        {
+            "name": "Debug (External Console + in.txt)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}\\submit.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "${workspaceFolder}\\mingw64\\bin\\gdb.exe",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Redirect stdin from in.txt",
+                    "text": "set args < in.txt",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Build submit.cpp"
+        }
+    ]
+}

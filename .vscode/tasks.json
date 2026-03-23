@@ -1,0 +1,76 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "1. Bundle to submit.cpp",
+            "command": "cmd",
+            "args": [
+                "/c",
+                "python3\\python.exe ac-library\\expander.py main.cpp --lib ac-library && move /Y combined.cpp submit.cpp"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "detail": "Bundles main.cpp dependencies using expander.py and outputs to submit.cpp."
+        },
+        {
+            "type": "cppbuild",
+            "label": "Build submit.cpp",
+            "command": "${workspaceFolder}\\mingw64\\bin\\g++.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-std=c++23",
+                "-g",
+                "-O2",
+                "-I",
+                "${workspaceFolder}\\ac-library",
+                "-I",
+                "${workspaceFolder}\\lib",
+                "${workspaceFolder}\\submit.cpp",
+                "-o",
+                "${workspaceFolder}\\submit.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build",
+            "dependsOn": "1. Bundle to submit.cpp",
+            "detail": "Compiles submit.cpp into submit.exe."
+        },
+        {
+            "type": "shell",
+            "label": "2. Run submit.cpp (External Console)",
+            "command": "cmd",
+            "args": [
+                "/c",
+                "start cmd /c \"${workspaceFolder}\\submit.exe & echo. & pause\""
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "dependsOn": "Build submit.cpp",
+            "problemMatcher": [],
+            "detail": "Builds and then runs submit.exe in an external console window."
+        },
+        {
+            "type": "shell",
+            "label": "3. Run submit.cpp (External Console + in.txt)",
+            "command": "cmd",
+            "args": [
+                "/c",
+                "start cmd /c \"${workspaceFolder}\\submit.exe < ${workspaceFolder}\\in.txt & echo. & cmd /k\""
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "dependsOn": "Build submit.cpp",
+            "problemMatcher": [],
+            "detail": "Builds and then runs submit.exe in an external console with std input redirected from in.txt."
+        }
+    ]
+}

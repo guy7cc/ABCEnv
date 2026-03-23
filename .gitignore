@@ -1,0 +1,18 @@
+# Downloaded Tools and Environment
+/mingw64/
+/ac-library/
+/python3/
+*.zip
+
+# Compiled Object files & Binaries
+*.exe
+*.o
+*.obj
+*.gch
+
+# Bundle Output
+submit.cpp
+combined.cpp
+
+# (Optional) Log files
+*.log
