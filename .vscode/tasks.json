@@ -4,73 +4,81 @@
         {
             "type": "shell",
             "label": "1. Bundle to submit.cpp",
-            "command": "cmd",
-            "args": [
-                "/c",
-                "python3\\python.exe ac-library\\expander.py main.cpp --lib ac-library && move /Y combined.cpp submit.cpp"
-            ],
+            "command": "@echo off & echo [START] 1. Bundle to submit.cpp & python3\\python.exe my-library\\expander.py main.cpp --lib my-library -o submit.cpp && echo [DONE] 1. Bundle to submit.cpp",
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": ["/d", "/c"]
+                }
             },
             "problemMatcher": [],
-            "detail": "Bundles main.cpp dependencies using expander.py and outputs to submit.cpp."
+            "presentation": { "echo": false },
+            "detail": "Bundles main.cpp: first inlines my-library/ headers via my-library/expander.py, then inlines ACL headers via expander.py, outputting to submit.cpp."
         },
         {
-            "type": "cppbuild",
+            "type": "shell",
             "label": "Build submit.cpp",
-            "command": "${workspaceFolder}\\mingw64\\bin\\g++.exe",
-            "args": [
-                "-fdiagnostics-color=always",
-                "-std=c++23",
-                "-g",
-                "-O2",
-                "-I",
-                "${workspaceFolder}\\ac-library",
-                "-I",
-                "${workspaceFolder}\\lib",
-                "${workspaceFolder}\\submit.cpp",
-                "-o",
-                "${workspaceFolder}\\submit.exe"
-            ],
+            "command": "@echo off & echo [START] Build submit.cpp & \"${workspaceFolder}\\mingw64\\bin\\g++.exe\" -fdiagnostics-color=always -std=c++23 -O2 -static -I \"${workspaceFolder}\\ac-library\" -I \"${workspaceFolder}\\my-library\" \"${workspaceFolder}\\submit.cpp\" -o \"${workspaceFolder}\\submit.exe\" && echo [DONE] Build submit.cpp",
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": ["/d", "/c"]
+                }
             },
-            "problemMatcher": [
-                "$gcc"
-            ],
+            "problemMatcher": [],
+            "presentation": { "echo": false },
             "group": "build",
             "dependsOn": "1. Bundle to submit.cpp",
             "detail": "Compiles submit.cpp into submit.exe."
         },
         {
             "type": "shell",
-            "label": "2. Run submit.cpp (External Console)",
-            "command": "cmd",
-            "args": [
-                "/c",
-                "start cmd /c \"${workspaceFolder}\\submit.exe & echo. & pause\""
-            ],
+            "label": "2. Run submit.cpp",
+            "command": "@echo off & echo [START] 2. Run submit.cpp & \"${workspaceFolder}\\submit.exe\" & echo [DONE] 2. Run submit.cpp",
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": ["/d", "/c"]
+                }
             },
             "dependsOn": "Build submit.cpp",
             "problemMatcher": [],
-            "detail": "Builds and then runs submit.exe in an external console window."
+            "presentation": { "echo": false },
+            "detail": "Builds and then runs submit.exe in the integrated terminal (supports interactive stdin)."
         },
         {
             "type": "shell",
-            "label": "3. Run submit.cpp (External Console + in.txt)",
-            "command": "cmd",
-            "args": [
-                "/c",
-                "start cmd /c \"${workspaceFolder}\\submit.exe < ${workspaceFolder}\\in.txt & echo. & cmd /k\""
-            ],
+            "label": "3. Run submit.cpp (+ in.txt)",
+            "command": "@echo off & echo [START] 3. Run submit.cpp (+ in.txt) & \"${workspaceFolder}\\submit.exe\" < \"${workspaceFolder}\\in.txt\" && echo [DONE] 3. Run submit.cpp (+ in.txt)",
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": ["/d", "/c"]
+                }
             },
             "dependsOn": "Build submit.cpp",
             "problemMatcher": [],
-            "detail": "Builds and then runs submit.exe in an external console with std input redirected from in.txt."
+            "presentation": { "echo": false },
+            "detail": "Builds and then runs submit.exe with stdin redirected from in.txt."
+        },
+        {
+            "type": "shell",
+            "label": "4. Run All Tests",
+            "command": "@echo off & echo [START] 4. Run All Tests & setlocal enabledelayedexpansion & set FAIL=0 & for %f in (\"${workspaceFolder}\\my-library\\test\\test_*.cpp\") do ( echo. & echo ---- %~nf ---- & \"${workspaceFolder}\\mingw64\\bin\\g++.exe\" -std=c++23 -O2 -static -I \"${workspaceFolder}\\ac-library\" -I \"${workspaceFolder}\\my-library\" \"%f\" -o \"${workspaceFolder}\\my-library\\test\\%~nf.exe\" && \"${workspaceFolder}\\my-library\\test\\%~nf.exe\" || set FAIL=1 ) & if !FAIL!==1 ( echo. & echo [FAILED] Some tests encountered an error! & exit /b 1 ) else ( echo. & echo [OK] All tests ran successfully! & echo [DONE] 4. Run All Tests )",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": ["/d", "/c"]
+                }
+            },
+            "problemMatcher": [],
+            "presentation": { "echo": false },
+            "detail": "Compiles and executes all test/test_*.cpp files, printing per-file and overall success/failure to the internal terminal."
         }
     ]
 }
