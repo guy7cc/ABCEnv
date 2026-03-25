@@ -1,0 +1,8 @@
+{
+    "clangd.arguments": [
+        "--query-driver=${workspaceFolder}/mingw64/bin/g++*",
+        "--header-insertion=never",
+        "--background-index"
+    ],
+    "C_Cpp.intelliSenseEngine": "disabled"
+}
