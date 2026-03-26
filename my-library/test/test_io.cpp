@@ -4,6 +4,7 @@
 
 using namespace std;
 using namespace TestFramework;
+using namespace guy7cc;
 
 struct StdoutRedirect {
     streambuf* orig;
