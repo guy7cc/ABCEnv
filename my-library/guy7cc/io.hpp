@@ -65,7 +65,7 @@ struct is_iterable<T, std::void_t<decltype(std::begin(std::declval<T>())), declt
 template<> struct is_iterable<std::string> : std::false_type {};
 
 // Forward declarations
-template<typename T> void pr(const T& x, const char* s = " ");
+template<typename T> void pr(const T& x, const char* s);
 template<typename T, typename... Args> void pr_impl(const char* s, const T& x, const Args&... args);
 
 // Single value or container print (with internal separator s)

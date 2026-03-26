@@ -32,6 +32,11 @@ void test_output_renamed() {
         pr(sep(","), 1, 2, 3);
         expect_eq(_.str(), string("1,2,3"), "pr(sep(\",\"), 1, 2, 3)");
     }
+    {
+        StdoutRedirect _;
+        prl(10);
+        expect_eq(_.str(), string("10\n"), "prl(10)");
+    }
 }
 
 int main() {

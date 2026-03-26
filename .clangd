@@ -1,25 +1,11 @@
-CompileFlags:
-  Add:
-    - -xc++
-    - -std=c++23
-    - -Iac-library
-    - -Imy-library
-    - -Wall
-    - -Wextra
-    - --target=x86_64-w64-mingw32
-    - -isystem
-    - ./mingw64/include/c++/15.2.0
-    - -isystem
-    - ./mingw64/include/c++/15.2.0/x86_64-w64-mingw32
-    - -isystem
-    - ./mingw64/include/c++/15.2.0/backward
-    - -isystem
-    - ./mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include
-    - -isystem
-    - ./mingw64/include
-    - -isystem
-    - ./mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include-fixed
-    - -isystem
-    - ./mingw64/x86_64-w64-mingw32/include
-  QueryDriver:
-    - "**/mingw64/bin/g++*"
+Index:
+  Background: Build
+
+Diagnostics:
+  UnusedIncludes: Strict
+
+Completion:
+  AllScopes: true
+
+Hover:
+  ShowAKA: true
