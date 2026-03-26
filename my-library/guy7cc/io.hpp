@@ -131,4 +131,3 @@ template<typename... Args> void print(const Args&... args) { pr(args...); }
 template<typename... Args> void println(const Args&... args) { prl(args...); }
 
 } // namespace guy7cc
-using namespace guy7cc;

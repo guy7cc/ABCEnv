@@ -25,5 +25,3 @@ template<class T> bool chmin(T &a, const T &b) { if (b < a) { a = b; return 1; }
 
 } // namespace guy7cc
 
-// Pull into global namespace for convenience (standard for CP libraries)
-using namespace guy7cc;
